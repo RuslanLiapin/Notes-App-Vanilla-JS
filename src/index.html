@@ -26,7 +26,9 @@
                 placeholder="Enter your note here"
             ></textarea>
             </div>
+            <p class="help is-danger" id="noteError">Note can't be empty.</p>
           </div>
+
           <div class="field">
             <label class="label" for="noteCategory">Category:</label>
             <div class="control">
@@ -41,7 +43,7 @@
           </div>
           <button class="button is-primary" id="addNoteBtn">Add Note</button>
 
-          <h2 class="subtitle">Notes</h2>
+          <h2 class="subtitle mt-5">Notes</h2>
           <table class="table is-fullwidth" id="notesTable">
             <thead>
               <tr>

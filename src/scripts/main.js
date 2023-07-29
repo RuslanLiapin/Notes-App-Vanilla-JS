@@ -239,9 +239,32 @@ function handleDeleteButtonClick(noteId) {
   deleteNote(noteId);
 }
 
+function hideErrorMessage() {
+  const errorMessage = document.getElementById('noteError');
+
+  errorMessage.style.display = 'none';
+}
+
+function showErrorMessage(message, duration) {
+  const errorMessage = document.getElementById('noteError');
+
+  errorMessage.textContent = message;
+  errorMessage.style.display = 'block';
+
+  setTimeout(() => {
+    hideErrorMessage();
+  }, duration);
+}
+
 function addNote() {
   const noteContent = document.getElementById('noteContent').value.trim();
   const noteCategory = document.getElementById('noteCategory').value;
+
+  if (noteContent === '') {
+    showErrorMessage("Note can't be empty.", 3000);
+
+    return;
+  }
 
   const datesMentioned = noteContent.match(/\d{1,2}\/\d{1,2}\/\d{4}/g) || [];
   const newNote = {
