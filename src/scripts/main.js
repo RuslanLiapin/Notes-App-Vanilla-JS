@@ -1,6 +1,6 @@
 'use strict';
 
-const { notesArr } = require('./noteArr');
+const { getNotesArr } = require('./notesState');
 const { renderNotes,
   updateSummary } = require('./render');
 const { addNote,
@@ -9,6 +9,8 @@ const { addNote,
   handleEditButtonClick,
   handleSaveButtonClick,
   handleCancelButtonClick } = require('./notes');
+
+const notesArr = getNotesArr();
 
 document.getElementById('addNoteBtn').addEventListener('click', addNote);
 

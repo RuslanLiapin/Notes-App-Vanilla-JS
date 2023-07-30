@@ -1,7 +1,6 @@
 'use strict';
 
-// eslint-disable-next-line prefer-const
-let notesArr = [
+const notesArr = [
   {
     id: 1,
     createdAt: new Date('2023-07-01 10:00'),
@@ -13,5 +12,11 @@ let notesArr = [
 ];
 
 module.exports = {
-  notesArr,
+  getNotesArr: () => notesArr,
+  setNotesArr: (newNotesArr) => {
+    notesArr.length = 0;
+    newNotesArr.forEach((note) => notesArr.push(note));
+
+    return notesArr;
+  },
 };

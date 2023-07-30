@@ -1,7 +1,9 @@
 'use strict';
 
-const { notesArr } = require('./noteArr');
+const { getNotesArr } = require('./notesState');
 const { categories } = require('./categories');
+
+const notesArr = getNotesArr();
 
 function renderEditableInput(value) {
   return `<input type="text" value="${value}" class="input is-small">`;

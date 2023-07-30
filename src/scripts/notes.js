@@ -1,11 +1,13 @@
 'use strict';
 
-let { notesArr } = require('./noteArr');
+const { getNotesArr, setNotesArr } = require('./notesState');
 const { categories } = require('./categories');
 const { renderNotes,
   updateSummary,
   renderEditableInput,
   renderEditableSelect } = require('./render');
+
+const notesArr = getNotesArr();
 
 function hideErrorMessage() {
   const errorMessage = document.getElementById('noteError');
@@ -70,8 +72,11 @@ function toggleArchive(noteId) {
 }
 
 function deleteNote(noteId) {
-  notesArr = notesArr.filter(note => note.id !== noteId);
+  const filteredNotes = notesArr.filter((note) => {
+    return note.id !== noteId;
+  });
 
+  setNotesArr(filteredNotes);
   renderNotes();
   updateSummary();
 }
