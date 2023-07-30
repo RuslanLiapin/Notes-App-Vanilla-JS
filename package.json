@@ -1,6 +1,7 @@
 {
   "name": "gulp-boilerplate",
   "version": "1.0.0",
+  "homepage": "https://ruslanliapin.github.io/Notes-App-Vanilla-JS/"
   "description": "Frontend boilerplate based on gulp",
   "main": "index.js",
   "scripts": {
@@ -9,7 +10,8 @@
     "lint": "mate-scripts lint",
     "test:only": "mate-scripts test",
     "build": "mate-scripts build",
-    "deploy": "mate-scripts deploy",
+  + "predeploy": "npm run build",
+  + "deploy": "gh-pages -d build",
     "update": "mate-scripts update",
     "postinstall": "npm run update",
     "test": "npm run lint && npm run test:only"
@@ -53,5 +55,4 @@
   "bugs": {
     "url": "https://github.com/RuslanLiapin/Notes-App-Vanilla-JS/issues"
   },
-  "homepage": "https://ruslanliapin.github.io/Notes-App-Vanilla-JS/"
 }
