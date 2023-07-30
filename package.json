@@ -33,7 +33,9 @@
     "parcel": "^1.12.4",
     "stylelint": "^13.5.0",
     "stylelint-config-recommended-scss": "^3.3.0",
-    "stylelint-scss": "^3.17.2"
+    "stylelint-scss": "^3.17.2",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
   },
   "browserslist": [
     "last 2 versions"
@@ -43,5 +45,13 @@
   },
   "dependencies": {
     "bulma": "^0.9.4"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RuslanLiapin/Notes-App-Vanilla-JS.git"
+  },
+  "bugs": {
+    "url": "https://github.com/RuslanLiapin/Notes-App-Vanilla-JS/issues"
+  },
+  "homepage": "https://github.com/RuslanLiapin/Notes-App-Vanilla-JS#readme"
 }
