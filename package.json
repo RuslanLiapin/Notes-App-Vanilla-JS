@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Frontend boilerplate based on gulp",
   "main": "index.js",
+  "homepage": "https://ruslanliapin.github.io/Notes-App-Vanilla-JS/",
   "scripts": {
     "init": "mate-scripts init",
     "start": "mate-scripts start",
@@ -33,9 +34,7 @@
     "parcel": "^1.12.4",
     "stylelint": "^13.5.0",
     "stylelint-config-recommended-scss": "^3.3.0",
-    "stylelint-scss": "^3.17.2",
-    "webpack": "^5.88.2",
-    "webpack-cli": "^5.1.4"
+    "stylelint-scss": "^3.17.2"
   },
   "browserslist": [
     "last 2 versions"
@@ -43,15 +42,5 @@
   "mateAcademy": {
     "projectType": "layout"
   },
-  "dependencies": {
-    "bulma": "^0.9.4"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/RuslanLiapin/Notes-App-Vanilla-JS.git"
-  },
-  "bugs": {
-    "url": "https://github.com/RuslanLiapin/Notes-App-Vanilla-JS/issues"
-  },
-  "homepage": "https://github.com/RuslanLiapin/Notes-App-Vanilla-JS#readme"
+  "dependencies": {}
 }
