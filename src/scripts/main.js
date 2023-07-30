@@ -13,6 +13,76 @@ let notesArr = [
 
 const categories = ['Task', 'Random Thought', 'Idea'];
 
+function hideErrorMessage() {
+  const errorMessage = document.getElementById('noteError');
+
+  errorMessage.style.display = 'none';
+}
+
+function showErrorMessage(message, duration) {
+  const errorMessage = document.getElementById('noteError');
+
+  errorMessage.textContent = message;
+  errorMessage.style.display = 'block';
+
+  setTimeout(() => {
+    hideErrorMessage();
+  }, duration);
+}
+
+function extractDatesFromContent(content) {
+  // eslint-disable-next-line max-len
+  const dateRegex = /\b\d{1,2}\/\d{1,2}\/\d{4}\b|\b\d{4}-\d{2}-\d{2}\b|\b\d{2}\.\d{2}\.\d{4}\b/g;
+
+  return content.match(dateRegex) || [];
+}
+
+function addNote() {
+  const noteContentInput = document.getElementById('noteContent');
+  const noteContent = document.getElementById('noteContent').value.trim();
+  const noteCategory = document.getElementById('noteCategory').value;
+
+  if (noteContent === '') {
+    showErrorMessage("Note can't be empty.", 3000);
+
+    return;
+  }
+
+  const datesMentioned = extractDatesFromContent(noteContent);
+  const newNote = {
+    id: notesArr.length + 1,
+    createdAt: new Date(),
+    content: noteContent,
+    category: noteCategory,
+    datesMentioned,
+    archived: false,
+  };
+
+  notesArr.push(newNote);
+
+  renderNotes();
+  updateSummary();
+  noteContentInput.value = '';
+}
+
+function renderNotes() {
+  const notesTableBody = document.getElementById('notesBody');
+  const archivedTableBody = document.getElementById('archivedBody');
+
+  notesTableBody.innerHTML = '';
+  archivedTableBody.innerHTML = '';
+
+  for (const note of notesArr) {
+    const row = renderNoteRow(note);
+
+    if (!note.archived) {
+      notesTableBody.appendChild(row);
+    } else {
+      archivedTableBody.appendChild(row);
+    }
+  }
+}
+
 function updateSummary() {
   const activeSummary = [];
   const archivedSummary = [];
@@ -54,40 +124,6 @@ function updateSummary() {
     summaryBody.appendChild(row);
   }
 }
-
-function renderNotes() {
-  const notesTableBody = document.getElementById('notesBody');
-  const archivedTableBody = document.getElementById('archivedBody');
-
-  notesTableBody.innerHTML = '';
-  archivedTableBody.innerHTML = '';
-
-  for (const note of notesArr) {
-    const row = renderNoteRow(note);
-
-    if (!note.archived) {
-      notesTableBody.appendChild(row);
-    } else {
-      archivedTableBody.appendChild(row);
-    }
-  }
-}
-
-const archivedEditBtns = document.querySelectorAll('#archivedBody .editBtn');
-const archivedArchiveBtns = document
-  .querySelectorAll('#archivedBody .archiveBtn');
-const archivedDeleteBtns = document
-  .querySelectorAll('#archivedBody .deleteBtn');
-
-archivedEditBtns
-  .forEach(btn => btn.addEventListener('click', handleEditButtonClick));
-
-archivedArchiveBtns
-  .forEach(btn => btn
-    .addEventListener('click', handleArchiveButtonClick));
-
-archivedDeleteBtns
-  .forEach(btn => btn.addEventListener('click', handleDeleteButtonClick));
 
 function toggleArchive(noteId) {
   const note = notesArr.find(n => n.id === noteId);
@@ -165,6 +201,54 @@ function renderNoteRow(note) {
   return row;
 }
 
+function handleEditButtonClick(row, note) {
+  const noteContentCell = row.querySelector('.noteContent');
+  const noteCategoryCell = row.querySelector('.noteCategory');
+  const noteContent = noteContentCell.textContent;
+  const noteCategory = noteCategoryCell.textContent;
+
+  noteContentCell.innerHTML = renderEditableInput(noteContent);
+  noteCategoryCell.innerHTML = renderEditableSelect(categories, noteCategory);
+
+  row.querySelector('.editBtn').classList.add('is-hidden');
+  row.querySelector('.archiveBtn').classList.add('is-hidden');
+  row.querySelector('.deleteBtn').classList.add('is-hidden');
+  row.querySelector('.saveBtn').classList.remove('is-hidden');
+  row.querySelector('.cancelBtn').classList.remove('is-hidden');
+}
+
+function handleSaveButtonClick(row, note) {
+  const noteContent = row.querySelector('input').value.trim();
+  const noteCategory = row.querySelector('select').value;
+
+  if (noteContent === '') {
+    // eslint-disable-next-line no-undef
+    alert("Note can't be empty.");
+
+    return;
+  }
+
+  note.content = noteContent;
+  note.category = noteCategory;
+  renderNotes();
+}
+
+function handleCancelButtonClick(row, note) {
+  const noteContentCell = row.querySelector('.noteContent');
+  const noteCategoryCell = row.querySelector('.noteCategory');
+
+  noteContentCell.innerHTML = note.content;
+  noteCategoryCell.innerHTML = note.category;
+
+  row.querySelector('.saveBtn').classList.add('is-hidden');
+  row.querySelector('.cancelBtn').classList.add('is-hidden');
+  row.querySelector('.editBtn').classList.remove('is-hidden');
+  row.querySelector('.archiveBtn').classList.remove('is-hidden');
+  row.querySelector('.deleteBtn').classList.remove('is-hidden');
+}
+
+document.getElementById('addNoteBtn').addEventListener('click', addNote);
+
 document.getElementById('app').addEventListener('click', (event) => {
   const targetClassList = event.target.classList;
   const row = event.target.closest('tr');
@@ -191,98 +275,6 @@ document.getElementById('app').addEventListener('click', (event) => {
     handleCancelButtonClick(row, note);
   }
 });
-
-function handleEditButtonClick(row, note) {
-  const noteContentCell = row.querySelector('.noteContent');
-  const noteCategoryCell = row.querySelector('.noteCategory');
-  const noteContent = noteContentCell.textContent;
-  const noteCategory = noteCategoryCell.textContent;
-
-  noteContentCell.innerHTML = renderEditableInput(noteContent);
-  noteCategoryCell.innerHTML = renderEditableSelect(categories, noteCategory);
-
-  row.querySelector('.editBtn').classList.add('is-hidden');
-  row.querySelector('.archiveBtn').classList.add('is-hidden');
-  row.querySelector('.deleteBtn').classList.add('is-hidden');
-  row.querySelector('.saveBtn').classList.remove('is-hidden');
-  row.querySelector('.cancelBtn').classList.remove('is-hidden');
-}
-
-function handleSaveButtonClick(row, note) {
-  const noteContent = row.querySelector('input').value.trim();
-  const noteCategory = row.querySelector('select').value;
-
-  note.content = noteContent;
-  note.category = noteCategory;
-  renderNotes();
-}
-
-function handleCancelButtonClick(row, note) {
-  const noteContentCell = row.querySelector('.noteContent');
-  const noteCategoryCell = row.querySelector('.noteCategory');
-
-  noteContentCell.innerHTML = note.content;
-  noteCategoryCell.innerHTML = note.category;
-
-  row.querySelector('.saveBtn').classList.add('is-hidden');
-  row.querySelector('.cancelBtn').classList.add('is-hidden');
-  row.querySelector('.editBtn').classList.remove('is-hidden');
-  row.querySelector('.archiveBtn').classList.remove('is-hidden');
-  row.querySelector('.deleteBtn').classList.remove('is-hidden');
-}
-
-function handleArchiveButtonClick(noteId) {
-  toggleArchive(noteId);
-}
-
-function handleDeleteButtonClick(noteId) {
-  deleteNote(noteId);
-}
-
-function hideErrorMessage() {
-  const errorMessage = document.getElementById('noteError');
-
-  errorMessage.style.display = 'none';
-}
-
-function showErrorMessage(message, duration) {
-  const errorMessage = document.getElementById('noteError');
-
-  errorMessage.textContent = message;
-  errorMessage.style.display = 'block';
-
-  setTimeout(() => {
-    hideErrorMessage();
-  }, duration);
-}
-
-function addNote() {
-  const noteContent = document.getElementById('noteContent').value.trim();
-  const noteCategory = document.getElementById('noteCategory').value;
-
-  if (noteContent === '') {
-    showErrorMessage("Note can't be empty.", 3000);
-
-    return;
-  }
-
-  const datesMentioned = noteContent.match(/\d{1,2}\/\d{1,2}\/\d{4}/g) || [];
-  const newNote = {
-    id: notesArr.length + 1,
-    createdAt: new Date(),
-    content: noteContent,
-    category: noteCategory,
-    datesMentioned,
-    archived: false,
-  };
-
-  notesArr.push(newNote);
-
-  renderNotes();
-  updateSummary();
-}
-
-document.getElementById('addNoteBtn').addEventListener('click', addNote);
 
 renderNotes();
 updateSummary();
