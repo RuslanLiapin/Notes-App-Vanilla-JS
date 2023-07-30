@@ -3,11 +3,92 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Title</title>
+    <title>Notes App</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="./images/favicon.png"
+    >
     <link rel="stylesheet" href="./styles/main.scss">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
   </head>
   <body>
-    <h1>Hello Mate Academy</h1>
+    <section class="section">
+      <div class="container">
+        <h1 class="title">Notes App</h1>
+        <div id="app">
+          <div class="field">
+            <label class="label" for="noteContent">Note:</label>
+            <div class="control">
+              <textarea
+                class="textarea"
+                id="noteContent"
+                placeholder="Enter your note here"
+            ></textarea>
+            </div>
+            <p class="help is-danger" id="noteError">Note can't be empty.</p>
+          </div>
+
+          <div class="field">
+            <label class="label" for="noteCategory">Category:</label>
+            <div class="control">
+              <div class="select">
+                <select id="noteCategory">
+                  <option value="Task">Task</option>
+                  <option value="Random Thought">Random Thought</option>
+                  <option value="Idea">Idea</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <button class="button is-primary" id="addNoteBtn">Add Note</button>
+
+          <h2 class="subtitle mt-5">Notes</h2>
+          <table class="table is-fullwidth" id="notesTable">
+            <thead>
+              <tr>
+                <th>Time of Creation</th>
+                <th>Note Content</th>
+                <th>Note Category</th>
+                <th>Dates Mentioned</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="notesBody">
+            </tbody>
+          </table>
+
+          <h2 class="subtitle">Archived Notes</h2>
+          <table class="table is-fullwidth" id="archivedTable">
+            <thead>
+              <tr>
+                <th>Time of Creation</th>
+                <th>Note Content</th>
+                <th>Note Category</th>
+                <th>Dates Mentioned</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="archivedBody">
+            </tbody>
+          </table>
+
+          <h2 class="subtitle">Summary</h2>
+          <table class="table is-fullwidth" id="summaryTable">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Active Notes Count</th>
+                <th>Archived Notes Count</th>
+              </tr>
+            </thead>
+            <tbody id="summaryBody">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
     <script type="text/javascript" src="scripts/main.js"></script>
   </body>
 </html>
