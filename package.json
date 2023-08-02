@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Frontend boilerplate based on gulp",
   "main": "index.js",
-  "homepage": "https://ruslanliapin.github.io/Notes-App-Vanilla-JS/",
   "scripts": {
     "init": "mate-scripts init",
     "start": "mate-scripts start",
@@ -42,5 +41,7 @@
   "mateAcademy": {
     "projectType": "layout"
   },
-  "dependencies": {}
+  "dependencies": {
+    "bulma": "^0.9.4"
+  }
 }
